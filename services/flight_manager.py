@@ -285,3 +285,16 @@ def search_flights(**params):
 
     # Returning the JSON response
     return response.json()
+
+def book_flight(flight_data):
+    # Assuming the endpoint URL is 'https://example.com/book_flight'
+    endpoint_url = 'https://127.0.0.1/book_flight'
+    
+    # Assuming the flight_data is a dictionary containing the necessary details
+    response = requests.post(endpoint_url, json=flight_data)
+    
+    # Check the response status and handle accordingly
+    if response.status_code == 200:
+        return "Flight booked successfully!"
+    else:
+        return "Failed to book the flight. Please try again."

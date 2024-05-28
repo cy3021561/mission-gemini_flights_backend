@@ -4,7 +4,7 @@ from vertexai.preview import generative_models
 from vertexai.preview.generative_models import GenerativeModel, Tool, Part, Content, ChatSession
 from services.flight_manager import search_flights
 
-project = "sample-gemini"
+project = "gemini-v1-423923"
 vertexai.init(project = project)
 
 # Define Tool
@@ -36,9 +36,24 @@ get_search_flights = generative_models.FunctionDeclaration(
     },
 )
 
+book_flight_tool = generative_models.FunctionDeclaration(
+    name="book_flight",
+    description="Book a flight using the specified details",
+    parameters={
+        "type": "object",
+        "properties": {
+            "flight_number": {"type": "string"},
+            "passenger_name": {"type": "string"},
+            "seat_preference": {"type": "string"},
+            "departure_date": {"type": "string"},
+            "return_date": {"type": "string"}
+        }
+    }
+)
+
 # Define tool and model with tools
 search_tool = generative_models.Tool(
-    function_declarations=[get_search_flights],
+    function_declarations=[get_search_flights, book_flight_tool],
 )
 
 config = generative_models.GenerationConfig(temperature=0.4)
